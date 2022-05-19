@@ -10,6 +10,8 @@ use std::error::Error;
 use std::ffi::OsString;
 use std::process;
 use std::thread;
+use uuid::Uuid;
+
 
 /// Returns the first positional argument sent to this process. If there are no
 /// positional arguments, then this returns an error.
@@ -22,7 +24,6 @@ fn get_first_arg() -> Result<OsString, Box<dyn Error>> {
 
 fn run() -> Result<(), Box<dyn Error>> {
     let mut handles = Vec::new();
-
     for files in 1..10 {
         let handle = thread::spawn( move || {
             let file_path: OsString = get_first_arg()
@@ -55,7 +56,8 @@ fn run() -> Result<(), Box<dyn Error>> {
             while i < 1000000 {
                 let first_name: String = FirstName(FR_FR).fake();
                 let last_name: String = LastName(FR_FR).fake();
-                let username: String = Username(FR_FR).fake();
+  
+                let username: String = Uuid::new_v4().to_string();
                 let useragent: String = UserAgent(FR_FR).fake();
                 let employer: String = CompanyName(FR_FR).fake();
                 let email: String = FreeEmail(FR_FR).fake();
