@@ -13,17 +13,7 @@
   limitations under the License.
 */
 
-use rand::Rng;
-use std::env;
-use std::error::Error;
-use std::ffi::OsString;
-use std::process;
-use std::thread;
-use uuid::Uuid;
-
-fn main() {
-    if let Err(err) = run() {
-        println!("{}", err);
-        process::exit(1);
-    }
+enum Strategy {
+    Contact,
+    TimeSeries,
 }

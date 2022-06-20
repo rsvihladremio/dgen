@@ -12,18 +12,23 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-
-use rand::Rng;
-use std::env;
 use std::error::Error;
-use std::ffi::OsString;
-use std::process;
-use std::thread;
-use uuid::Uuid;
 
-fn main() {
-    if let Err(err) = run() {
-        println!("{}", err);
-        process::exit(1);
+use crate::fakes::Strategy;
+
+// simple wrapper function for csv writer code, that takes a file name, the headers,
+// the number of records too add and a function to get rows to add
+pub fn output_csv(
+    file_name: String,
+    records_to_add: u64,
+    strategy: &dyn Strategy,
+) -> Result<(), Box<dyn Error>> {
+    let mut wtr = csv::Writer::from_path(file_name)?;
+    wtr.write_record(&strategy.headers())?;
+    for i in 1..records_to_add {
+        let row = strategy.get_row();
+        wtr.write_record(row)?;
     }
+    wtr.flush()?;
+    return Ok(());
 }

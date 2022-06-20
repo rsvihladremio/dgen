@@ -12,18 +12,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-
-use rand::Rng;
-use std::env;
-use std::error::Error;
-use std::ffi::OsString;
-use std::process;
-use std::thread;
-use uuid::Uuid;
-
-fn main() {
-    if let Err(err) = run() {
-        println!("{}", err);
-        process::exit(1);
-    }
-}
+pub mod args;
+pub mod exec;
+pub mod fakes;
+pub mod writer;
